@@ -37,11 +37,13 @@ module.exports = {
     },
     proxy: {
       '/dev-api': { // 因为mock数据是开头是/dev-api，这里用来区分是mock数据还是前端数据
-        target: 'https://sardline.yashisoft.com/sardline/',
+        //target: 'https://sardline.yashisoft.com/sardline/',
         // target: 'http://sardline.utools.club/sardline/', // bin
         // target: 'https://fjxceshi.utools.club/sardline/', // xin
         // target: 'http://10.118.26.180:8099/sardline/', // xin
-        // target: 'http://10.118.26.191:8099/sardline/', // bin
+        //target: 'http://10.118.26.191:8099/sardline/', // bin
+        // target:'http://fjxceshi.cn.utools.club/sardline/',
+        target: 'https://sardlinetest.test.utools.club/sardline/', //
         secure: false,
         changeOrigin: true,
         pathRewrite: {
@@ -65,15 +67,13 @@ module.exports = {
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     // it can improve the speed of the first screen, it is recommended to turn on preload
-    config.plugin('preload').tap(() => [
-      {
-        rel: 'preload',
-        // to ignore runtime.js
-        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
-        fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
-        include: 'initial'
-      }
-    ])
+    config.plugin('preload').tap(() => [{
+      rel: 'preload',
+      // to ignore runtime.js
+      // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
+      fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+      include: 'initial'
+    }])
 
     // when there are many pages, it will cause too many meaningless requests
     config.plugins.delete('prefetch')
@@ -113,7 +113,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()

@@ -168,7 +168,7 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
+    handleLogin() { // 验证并登录，如果是扫码登录，跳过验证
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true

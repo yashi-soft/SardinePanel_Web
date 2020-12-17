@@ -18,7 +18,7 @@ export function getInfo(username) {
 
 export function logout() {
   return request({
-    url: '/vue-element-admin/user/logout',
+    url: '/logout',
     method: 'post'
   })
 }

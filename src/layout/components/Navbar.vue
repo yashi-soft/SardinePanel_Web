@@ -19,7 +19,7 @@
           <!-- <router-link to="/">
             <el-dropdown-item>首页</el-dropdown-item>
           </router-link> -->
-          <el-dropdown-item v-for="item in roles" :key="item.roleId" @click.native="modifyPassword">{{ item.roleName }}</el-dropdown-item>
+          <el-dropdown-item v-for="item in roles" :key="item.roleId">{{ item.roleName }}</el-dropdown-item>
           <el-dropdown-item @click.native="modifyPassword">修改密码</el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span style="display:block;">退出</span>
