@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card">
+    <!-- <el-card class="box-card">
       <div
         slot="header"
         class="clearfix"
@@ -22,7 +22,7 @@
         </el-form-item>
 
       </el-form>
-    </el-card>
+    </el-card> -->
 
     <el-card class="box-card">
       <div
@@ -38,8 +38,9 @@
         :rules="rules"
         label-width="200px"
         class="demo-ruleForm"
+        v-loading="loading"
       >
-        <el-form-item prop="name">
+        <el-form-item prop="corpId">
           <span slot="label">
             <span class="span-box">
               <span>企业ID</span>
@@ -56,14 +57,13 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name"
+            v-model="ruleForm.corpId"
             placeholder="请配置"
-            disabled="true"
           />
         </el-form-item>
         <el-form-item
           label=""
-          prop="name2"
+          prop="providerSecret"
         >
           <span slot="label">
             <span class="span-box">
@@ -81,13 +81,13 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name2"
+            v-model="ruleForm.providerSecret"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label=""
-          prop="name3"
+          prop="contactsSecret"
         >
           <span slot="label">
             <span class="span-box">
@@ -105,13 +105,13 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name3"
+            v-model="ruleForm.contactsSecret"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label=""
-          prop="name4"
+          prop="conversationSecret"
         >
           <span slot="label">
             <span class="span-box">
@@ -129,25 +129,25 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name4"
+            v-model="ruleForm.conversationSecret"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="公钥版本"
-          prop="name5"
+          prop="publicKeyVersion"
         >
           <el-input
-            v-model="ruleForm.name5"
+            v-model="ruleForm.publicKeyVersion"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="私钥"
-          prop="name6"
+          prop="privateKey"
         >
           <el-input
-            v-model="ruleForm.name6"
+            v-model="ruleForm.privateKey"
             type="textarea"
             rows="4"
             placeholder="请配置"
@@ -156,7 +156,7 @@
 
         <el-form-item
           label=""
-          prop="name7"
+          prop="chatAppId"
         >
           <span slot="label">
             <span class="span-box">
@@ -174,13 +174,13 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name7"
+            v-model="ruleForm.chatAppId"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label=""
-          prop="name8"
+          prop="charAppSecret"
         >
           <span slot="label">
             <span class="span-box">
@@ -198,47 +198,55 @@
             </span>
           </span>
           <el-input
-            v-model="ruleForm.name8"
+            v-model="ruleForm.charAppSecret"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="小程序应用ID"
-          prop="name9"
+          prop="appId"
         >
           <el-input
-            v-model="ruleForm.name9"
+            v-model="ruleForm.appId"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="小程序应用密钥"
-          prop="name10"
+          prop="appSecret"
         >
           <el-input
-            v-model="ruleForm.name10"
+            v-model="ruleForm.appSecret"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="企微扫码应用ID"
-          prop="name11"
+          prop="wxCodeAppId"
         >
           <el-input
-            v-model="ruleForm.name11"
+            v-model="ruleForm.wxCodeAppId"
             placeholder="请配置"
           />
         </el-form-item>
         <el-form-item
           label="企微扫码登录url"
-          prop="name12"
+          prop="wxCodeAppUrl"
         >
           <el-input
-            v-model="ruleForm.name12"
+            v-model="ruleForm.wxCodeAppUrl"
             placeholder="请配置"
           />
         </el-form-item>
-
+        <el-form-item
+          label="通讯录secret"
+          prop="mailListSecret"
+        >
+          <el-input
+            v-model="ruleForm.mailListSecret"
+            placeholder="请配置"
+          />
+        </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
@@ -254,8 +262,10 @@
 </template>
 
 <script>
+import { selectOne, saveEnterpriseInfo } from "@/api/wechat";
+
 export default {
-  name: 'Wechatset',
+  name: "Wechatset",
   components: {},
   data() {
     return {
@@ -263,46 +273,93 @@ export default {
         openFlag: true
       },
       ruleForm: {
-        name: '111',
-        name2: '',
-        name3: '',
-        name4: '',
-        name5: '',
-        name6: '',
-        name7: '',
-        name8: '',
-        name9: '',
-        name10: '',
-        name11: '',
-        name12: ''
+        corpId: "",
+        providerSecret: "",
+        contactsSecret: "",
+        conversationSecret: "",
+        publicKeyVersion: "",
+        privateKey: "",
+        chatAppId: "",
+        charAppSecret: "",
+        appId: "",
+        appSecret: "",
+        wxCodeAppId: "",
+        wxCodeAppUrl: "",
+        mailListSecret: ""
       },
       rules: {
-        name: [{ required: true, message: '请输入企业ID', trigger: 'blur' }],
-        name2: [{ required: true, message: '请输入通讯秘钥', trigger: 'blur' }],
-        name3: [
-          { required: true, message: '请输入外部联系人秘钥', trigger: 'blur' }
+        corpId: [{ required: true, message: "请输入企业ID", trigger: "blur" }],
+        providerSecret: [
+          { required: true, message: "请输入通讯密钥", trigger: "blur" }
+        ],
+        contactsSecret: [
+          { required: true, message: "请输入外部联系人密钥", trigger: "blur" }
         ]
-      }
+      },
+      loading: true
+    };
+  },
+  computed: {
+    getUserId() {
+      return this.$store.state.user.userId;
     }
   },
-  computed: {},
-  created() {},
+  created() {
+    this.selectOne();
+  },
   methods: {
+    selectOne() {
+      var that = this;
+      that.loading = true;
+      // var data = {
+      //   userid:this.getUserId
+      // }
+      var data = {
+        userid: "LinJie"
+      };
+      selectOne(data)
+        .then(response => {
+          console.log(response);
+          that.ruleForm = response.data;
+          that.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          that.loading = false;
+        });
+    },
+    saveEnterpriseInfo() {
+      var that = this;
+      that.loading = true;
+      saveEnterpriseInfo(that.ruleForm)
+        .then(response => {
+          console.log(response);
+          that.$message({
+            type: "success",
+            message: "设置成功"
+          });
+          that.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          that.loading = false;
+        });
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('submit!')
+          this.saveEnterpriseInfo();
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
+      this.$refs[formName].resetFields();
     }
   }
-}
+};
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
 .clearfix:before,

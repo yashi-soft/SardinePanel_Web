@@ -43,7 +43,8 @@ module.exports = {
         // target: 'http://10.118.26.180:8099/sardline/', // xin
         //target: 'http://10.118.26.191:8099/sardline/', // bin
         // target:'http://fjxceshi.cn.utools.club/sardline/',
-        target: 'https://sardlinetest.test.utools.club/sardline/', //
+        // target: 'https://sardine.test.utools.club/sardline/', //
+        target: 'https://sardline.yashisoft.com/sardline-wx/',
         secure: false,
         changeOrigin: true,
         pathRewrite: {
